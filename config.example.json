@@ -1,0 +1,11 @@
+{
+    "github_username": "YOUR_GITHUB_USERNAME",
+    "min_language_percent": 5.0,
+    "max_repos": 6,
+    "ignore_languages": [
+        "HTML",
+        "CSS"
+    ],
+    "pinned_repos": [],
+    "exclude_repos": []
+}
