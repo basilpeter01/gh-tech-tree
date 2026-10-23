@@ -6,9 +6,12 @@ of Languages (left) ↔ Repositories (right) with cubic Bézier curves.
 Zero external dependencies — uses only the Python standard library.
 """
 
-import os
+import html
 import json
 import math
+import os
+import sys
+import urllib.error
 import urllib.request
 
 CONFIG_FILE = "config.json"
@@ -58,13 +61,30 @@ LANG_COLORS = {
 
 
 def fetch_json(url, token=None):
-    """Fetch JSON from a URL, optionally authenticated."""
+    """Fetch JSON from a URL, optionally authenticated with a token."""
     headers = {"User-Agent": "GitHub-Tech-Tree-Engine"}
     if token:
         headers["Authorization"] = f"token {token}"
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read().decode())
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        if e.code == 403:
+            print("\nGitHub API Rate Limit Exceeded (HTTP 403).")
+            print("Provide a token: $env:GH_TOKEN=\"your_github_token\"")
+            sys.exit(1)
+        elif e.code == 404:
+            print(f"\n Resource not found (HTTP 404): {url}")
+            print("   Please check the username in config.json.")
+            sys.exit(1)
+        else:
+            print(f"\n GitHub API Error HTTP {e.code}: {e.reason}")
+            sys.exit(1)
+    except urllib.error.URLError as e:
+        print(f"\n Network Connection Error: {e.reason}")
+        print("   Please check your internet connection.")
+        sys.exit(1)
 
 
 def fetch_all_repos(username, token=None):
@@ -205,6 +225,7 @@ def run():
         color = LANG_COLORS.get(lang, LANG_COLORS["Default"])
         box_x = 30
         box_y = y - NODE_HEIGHT / 2
+        escaped_lang = html.escape(lang)
         svg_elements.append(
             f'<g class="node">'
             f'<rect x="{box_x}" y="{box_y}" width="140" height="{NODE_HEIGHT}" '
@@ -212,7 +233,7 @@ def run():
             f'<circle cx="{box_x + 18}" cy="{y}" r="5" fill="{color}" />'
             f'<text x="{box_x + 32}" y="{y + 4}" fill="#c9d1d9" '
             f'font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
-            f'font-size="13" font-weight="600">{lang}</text>'
+            f'font-size="13" font-weight="600">{escaped_lang}</text>'
             f'</g>'
         )
 
@@ -221,13 +242,14 @@ def run():
         box_x = WIDTH - 200
         box_y = y - NODE_HEIGHT / 2
         display_name = repo if len(repo) <= 18 else repo[:16] + ".."
+        escaped_name = html.escape(display_name)
         svg_elements.append(
             f'<g class="node">'
             f'<rect x="{box_x}" y="{box_y}" width="170" height="{NODE_HEIGHT}" '
             f'rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5" />'
             f'<text x="{box_x + 14}" y="{y + 4}" fill="#58a6ff" '
             f'font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
-            f'font-size="12" font-weight="600">{display_name}</text>'
+            f'font-size="12" font-weight="600">{escaped_name}</text>'
             f'</g>'
         )
 
