@@ -9,9 +9,7 @@ Zero external dependencies — uses only the Python standard library.
 import os
 import json
 import math
-import html
 import urllib.request
-import urllib.error
 
 CONFIG_FILE = "config.json"
 OUTPUT_SVG = "tech-tree.svg"
