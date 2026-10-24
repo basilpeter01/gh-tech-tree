@@ -359,6 +359,7 @@ def run():
     curve_elements = []
     dx = (PORT_X2 - PORT_X1) * 0.44
 
+    curve_idx = 0
     for repo, langs in repo_lang_map.items():
         x2, y2 = repo_coords[repo]
         for lang in langs:
@@ -370,6 +371,7 @@ def run():
             cx1 = x1 + dx
             cx2 = x2 - dx
             path_d = f"M {x1} {y1} C {cx1} {y1}, {cx2} {y2}, {x2} {y2}"
+            delay = (curve_idx * 0.35) % 3.0
 
             # Layer 1: Soft diffuse glow
             curve_elements.append(
@@ -381,11 +383,13 @@ def run():
                 f'<path d="{path_d}" fill="none" stroke="{color}" '
                 f'stroke-opacity="0.75" stroke-width="1.7" stroke-linecap="round" class="fiber" />'
             )
-            # Layer 3: Animated signal packet trail (living circuit effect)
+            # Layer 3: Occasional signal packet ping (calm living circuit effect)
             curve_elements.append(
                 f'<path d="{path_d}" fill="none" stroke="#ffffff" '
-                f'stroke-opacity="0.75" stroke-width="1.8" stroke-linecap="round" class="pulse-line" />'
+                f'stroke-opacity="0.85" stroke-width="2" stroke-linecap="round" class="pulse-line" '
+                f'style="animation-delay: {delay:.2f}s;" />'
             )
+            curve_idx += 1
 
     svg_elements.append("".join(curve_elements))
 
@@ -495,12 +499,15 @@ def run():
         f'viewBox="0 0 {WIDTH} {HEIGHT}" width="100%" height="100%">\n'
         f'<style>\n'
         f'  @keyframes pulse {{\n'
-        f'    from {{ stroke-dashoffset: 56; }}\n'
-        f'    to {{ stroke-dashoffset: 0; }}\n'
+        f'    0% {{ stroke-dashoffset: 0; opacity: 0; }}\n'
+        f'    4% {{ opacity: 1; }}\n'
+        f'    48% {{ opacity: 1; }}\n'
+        f'    55% {{ stroke-dashoffset: -650; opacity: 0; }}\n'
+        f'    100% {{ stroke-dashoffset: -650; opacity: 0; }}\n'
         f'  }}\n'
         f'  .pulse-line {{\n'
-        f'    stroke-dasharray: 6 22;\n'
-        f'    animation: pulse 2.5s linear infinite;\n'
+        f'    stroke-dasharray: 20 800;\n'
+        f'    animation: pulse 6s ease-in-out infinite;\n'
         f'  }}\n'
         f'  .repo-link {{ text-decoration: none; cursor: pointer; }}\n'
         f'  .card-bg {{ transition: stroke 0.25s ease, stroke-width 0.25s ease; }}\n'
