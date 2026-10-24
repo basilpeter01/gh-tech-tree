@@ -2,10 +2,6 @@
 
 A zero-dependency Python tool that generates a **dark-mode SVG dependency graph** showing how your GitHub repositories connect to programming languages via smooth cubic Bézier curves. Designed to be embedded directly into your GitHub Profile README.
 
-<p align="center">
-  <img src="tech-tree.svg" alt="Tech Dependency Graph" width="100%" />
-</p>
-
 ---
 
 ## Features
