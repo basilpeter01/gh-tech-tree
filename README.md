@@ -132,24 +132,26 @@ Add the snippet below to your profile `README.md` (or any repository README):
 
 ```markdown
 <p align="center">
-  <img src="https://raw.githubusercontent.com/YOUR_USERNAME/gh-readme-gen/main/tech-tree.svg" alt="Tech Dependency Graph" />
+  <img src="https://raw.githubusercontent.com/GITHUB_USERNAME/gh-tech-tree/main/tech-tree.svg" alt="Tech Dependency Graph" />
 </p>
 ```
 
-Replace `YOUR_USERNAME` with your GitHub handle.
+> Replace `GITHUB_USERNAME` with your GitHub username.
+
+---
 
 ## How It Works
 
-1. Fetches your public repositories via the GitHub API
-2. Retrieves language byte breakdowns for each repo
-3. Filters out forks, excluded repos, and low-percentage boilerplate languages
-4. Builds a bipartite graph: **Languages** (left) ↔ **Repositories** (right)
-5. Renders a standalone SVG with cubic Bézier curves and GitHub's dark-mode palette
+1. **Repository Fetching**: Queries the GitHub REST API (`/users/{username}/repos`) and filters out forks and excluded repositories.
+2. **Language Extraction**: Queries `/repos/{username}/{repo}/languages` for exact byte breakdowns. Calculates percentage share and drops any languages below `min_language_percent` or in `ignore_languages`.
+3. **Graph Geometry**:
+   - Languages sorted alphabetically and placed on the left column.
+   - Repositories placed on the right column.
+   - Smooth cubic Bézier curves calculated: `M (x1, y1) C (x1+140, y1), (x2-140, y2), (x2, y2)`.
+4. **SVG Generation**: Compiles into a standalone SVG with embedded styling, rounded card nodes, and XML-safe text escaping.
 
-## Requirements
-
-**None.** Uses only the Python standard library (`urllib.request`, `json`, `os`, `math`).
+---
 
 ## License
 
-MIT
+This project is open source and available under the [MIT License](LICENSE).
