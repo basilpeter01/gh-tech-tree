@@ -18,49 +18,49 @@ import urllib.request
 CONFIG_FILE = "config.json"
 OUTPUT_SVG = "tech-tree.svg"
 
-# Palette mapped to official GitHub language colors
+# Colour Palette for Languages
 LANG_COLORS = {
-    "Python": "#3572A5",
-    "JavaScript": "#F1E05A",
-    "TypeScript": "#3178C6",
-    "C": "#555555",
-    "C++": "#F34B7D",
-    "C#": "#178600",
-    "Rust": "#DEA584",
-    "Go": "#00ADD8",
-    "Java": "#B07219",
-    "Kotlin": "#A97BFF",
-    "Swift": "#F05138",
-    "Ruby": "#701516",
-    "PHP": "#4F5D95",
-    "Dart": "#00B4AB",
-    "Lua": "#000080",
-    "Scala": "#C22D40",
-    "R": "#198CE7",
-    "MATLAB": "#E16737",
-    "Haskell": "#5E5086",
-    "Elixir": "#6E4A7E",
-    "Clojure": "#DB5855",
-    "Perl": "#0298C3",
-    "Zig": "#EC915C",
-    "Nim": "#FFC200",
-    "Julia": "#A270BA",
-    "OCaml": "#3BE133",
-    "Erlang": "#B83998",
-    "Objective-C": "#438EFF",
-    "Assembly": "#6E4C13",
-    "PowerShell": "#012456",
-    "Makefile": "#427819",
-    "Dockerfile": "#384D54",
-    "HCL": "#844FBA",
-    "Nix": "#7E7EFF",
-    "Vue": "#41B883",
-    "Svelte": "#FF3E00",
-    "SCSS": "#C6538C",
-    "HTML": "#E34C26",
-    "CSS": "#563D7C",
-    "Shell": "#89E051",
-    "Default": "#8B949E",
+    "Python": "#38bdf8",       # Luminous Sky Blue / Cyan
+    "JavaScript": "#facc15",   # Electric Gold / Yellow
+    "TypeScript": "#3b82f6",   # Vivid Royal Azure
+    "C": "#818cf8",            # Electric Indigo / Periwinkle (replaces dull #555555)
+    "C++": "#f43f5e",          # Vivid Rose / Hot Pink
+    "C#": "#a855f7",           # Electric Purple / Violet
+    "Java": "#f97316",         # Radiant Amber Orange (replaces muddy #B07219)
+    "Rust": "#fb923c",         # Terracotta Coral
+    "Go": "#00add8",           # Cyan Teal
+    "Kotlin": "#c084fc",       # Soft Violet
+    "Swift": "#ff6b4a",        # Flame Red-Orange
+    "Ruby": "#e11d48",         # Ruby Red
+    "PHP": "#a78bfa",          # Lavender Purple
+    "Dart": "#14b8a6",         # Electric Teal
+    "Lua": "#60a5fa",          # Moon Blue
+    "Scala": "#ef4444",        # Crimson Red
+    "R": "#22d3ee",            # Bright Aqua
+    "MATLAB": "#f59e0b",       # Golden Amber
+    "Haskell": "#8b5cf6",      # Purple
+    "Elixir": "#c084fc",       # Orchid
+    "Clojure": "#4ade80",      # Lime Green
+    "Perl": "#38bdf8",         # Sky Blue
+    "Zig": "#f59e0b",          # Amber
+    "Nim": "#eab308",          # Yellow
+    "Julia": "#a855f7",        # Violet
+    "OCaml": "#f97316",        # Orange
+    "Erlang": "#ec4899",       # Pink
+    "Objective-C": "#0284c7",  # Deep Sky
+    "Assembly": "#94a3b8",     # Silver Gray
+    "PowerShell": "#38bdf8",   # PowerShell Cyan
+    "Makefile": "#4ade80",     # Terminal Green
+    "Dockerfile": "#0ea5e9",   # Docker Blue
+    "HCL": "#818cf8",          # Hashi Indigo
+    "Nix": "#67e8f9",          # Ice Cyan
+    "Vue": "#41b883",          # Vue Emerald
+    "Svelte": "#ff3e00",       # Svelte Orange-Red
+    "SCSS": "#ec4899",         # Sass Pink
+    "HTML": "#f97316",         # HTML Orange
+    "CSS": "#3b82f6",          # CSS Blue
+    "Shell": "#22c55e",        # Bash Green
+    "Default": "#94a3b8",      # Slate
 }
 
 
@@ -134,36 +134,36 @@ def render_lang_icon(lang, color, cx, cy):
         # Blue square badge with TS
         bx, by = cx - 12, cy - 12
         icon_svg.append(f'''
-        <rect x="{bx}" y="{by}" width="24" height="24" rx="4" fill="#3178c6" />
+        <rect x="{bx}" y="{by}" width="24" height="24" rx="4" fill="#2563eb" />
         <text x="{cx}" y="{cy + 5}" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11.5" font-weight="900" text-anchor="middle">TS</text>
         ''')
 
     elif lang == "C":
-        # Hexagonal C badge
+        # Hexagonal C badge (Indigo)
         icon_svg.append(f'''
-        <polygon points="{cx},{cy - 13} {cx + 12},{cy - 6} {cx + 12},{cy + 6} {cx},{cy + 13} {cx - 12},{cy + 6} {cx - 12},{cy - 6}" fill="#00599c" stroke="#659ad2" stroke-width="1"/>
+        <polygon points="{cx},{cy - 13} {cx + 12},{cy - 6} {cx + 12},{cy + 6} {cx},{cy + 13} {cx - 12},{cy + 6} {cx - 12},{cy - 6}" fill="#4338ca" stroke="#818cf8" stroke-width="1.2"/>
         <text x="{cx}" y="{cy + 5}" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="800" text-anchor="middle">C</text>
         ''')
 
     elif lang == "C++":
         # Hexagonal C++ badge
         icon_svg.append(f'''
-        <polygon points="{cx},{cy - 13} {cx + 13},{cy - 6} {cx + 13},{cy + 6} {cx},{cy + 13} {cx - 13},{cy + 6} {cx - 13},{cy - 6}" fill="#5e2b97" stroke="#9b59b6" stroke-width="1"/>
+        <polygon points="{cx},{cy - 13} {cx + 13},{cy - 6} {cx + 13},{cy + 6} {cx},{cy + 13} {cx - 13},{cy + 6} {cx - 13},{cy - 6}" fill="#be123c" stroke="#f43f5e" stroke-width="1"/>
         <text x="{cx}" y="{cy + 4}" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9" font-weight="800" text-anchor="middle">C++</text>
         ''')
 
     elif lang == "C#":
         # Hexagonal C# badge
         icon_svg.append(f'''
-        <polygon points="{cx},{cy - 13} {cx + 13},{cy - 6} {cx + 13},{cy + 6} {cx},{cy + 13} {cx - 13},{cy + 6} {cx - 13},{cy - 6}" fill="#178600" stroke="#2ecc71" stroke-width="1"/>
+        <polygon points="{cx},{cy - 13} {cx + 13},{cy - 6} {cx + 13},{cy + 6} {cx},{cy + 13} {cx - 13},{cy + 6} {cx - 13},{cy - 6}" fill="#7e22ce" stroke="#a855f7" stroke-width="1"/>
         <text x="{cx}" y="{cy + 4}" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">C#</text>
         ''')
 
     elif lang == "Rust":
         # Gear / R
         icon_svg.append(f'''
-        <circle cx="{cx}" cy="{cy}" r="12" fill="#dea584" />
-        <text x="{cx}" y="{cy + 5}" fill="#111111" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="900" text-anchor="middle">R</text>
+        <circle cx="{cx}" cy="{cy}" r="12" fill="#ea580c" />
+        <text x="{cx}" y="{cy + 5}" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="900" text-anchor="middle">R</text>
         ''')
 
     elif lang == "Go":
@@ -175,10 +175,10 @@ def render_lang_icon(lang, color, cx, cy):
         ''')
 
     elif lang == "Java":
-        # Java badge
+        # Java badge (Radiant Amber Orange)
         icon_svg.append(f'''
-        <circle cx="{cx}" cy="{cy}" r="12" fill="#5382a1" />
-        <text x="{cx}" y="{cy + 4}" fill="#f89820" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="8.5" font-weight="900" text-anchor="middle">JAVA</text>
+        <circle cx="{cx}" cy="{cy}" r="12" fill="#c2410c" stroke="#f97316" stroke-width="1.2" />
+        <text x="{cx}" y="{cy + 4}" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="8.5" font-weight="900" text-anchor="middle">JAVA</text>
         ''')
 
     else:
@@ -381,10 +381,10 @@ def run():
                 f'<path d="{path_d}" fill="none" stroke="{color}" '
                 f'stroke-opacity="0.75" stroke-width="1.7" stroke-linecap="round" class="fiber" />'
             )
-            # Layer 3: Subtle accent particle trail
+            # Layer 3: Animated signal packet trail (living circuit effect)
             curve_elements.append(
                 f'<path d="{path_d}" fill="none" stroke="#ffffff" '
-                f'stroke-opacity="0.18" stroke-width="0.8" stroke-dasharray="4 8" />'
+                f'stroke-opacity="0.75" stroke-width="1.8" stroke-linecap="round" class="pulse-line" />'
             )
 
     svg_elements.append("".join(curve_elements))
@@ -457,7 +457,9 @@ def run():
             )
             curr_x += seg_w
 
+        repo_url = f"https://github.com/{username}/{repo}"
         repo_svg = [
+            f'<a href="{repo_url}" xlink:href="{repo_url}" target="_blank" rel="noopener noreferrer" class="repo-link">',
             f'<g class="node-repo">',
             # Left port anchor dot
             f'<circle cx="{PORT_X2}" cy="{y}" r="5" fill="none" stroke="#38bdf8" stroke-opacity="0.5" stroke-width="1" />',
@@ -483,16 +485,27 @@ def run():
             "".join(bar_rects),
             f'</g>',
 
-            f'</g>'
+            f'</g>',
+            f'</a>'
         ]
         svg_elements.append("".join(repo_svg))
 
     full_svg = (
-        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
         f'viewBox="0 0 {WIDTH} {HEIGHT}" width="100%" height="100%">\n'
         f'<style>\n'
+        f'  @keyframes pulse {{\n'
+        f'    from {{ stroke-dashoffset: 56; }}\n'
+        f'    to {{ stroke-dashoffset: 0; }}\n'
+        f'  }}\n'
+        f'  .pulse-line {{\n'
+        f'    stroke-dasharray: 6 22;\n'
+        f'    animation: pulse 2.5s linear infinite;\n'
+        f'  }}\n'
+        f'  .repo-link {{ text-decoration: none; cursor: pointer; }}\n'
         f'  .card-bg {{ transition: stroke 0.25s ease, stroke-width 0.25s ease; }}\n'
-        f'  .node-repo:hover .card-bg {{ stroke: #38bdf8; stroke-width: 1.8; }}\n'
+        f'  .repo-link:hover .card-bg {{ stroke: #38bdf8; stroke-width: 1.8; }}\n'
+        f'  .repo-link:hover text {{ fill: #ffffff; }}\n'
         f'  .node-lang:hover circle {{ stroke-opacity: 0.9; }}\n'
         f'</style>\n'
         f'{"".join(svg_elements)}\n'
