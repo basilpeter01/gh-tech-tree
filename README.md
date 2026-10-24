@@ -1,12 +1,12 @@
 # GitHub Tech Tree
 
-A zero-dependency Python tool that generates a **dark-mode SVG dependency graph** showing how your GitHub repositories connect to programming languages via smooth cubic Bézier curves. Designed to be embedded directly into your GitHub Profile README.
+A Python tool that generates a **dark-mode SVG dependency graph** showing how GitHub repositories connect to programming languages via bipartite graph rendered in SVG. Designed to be embedded directly into your GitHub Profile README.
 
 ---
 
 ## Features
 
-- **Zero External Dependencies**: Pure Python standard library (`urllib.request`, `json`, `os`, `sys`, `math`, `html`). No `pip install` required.
+- **Zero External Dependencies**: Pure Python standard library (`urllib.request`, `json`, `os`, `sys`, `math`, `html`).
 - **Bipartite Graph Layout**: Deterministic geometry with languages on the left, repositories on the right, connected by Bézier curves.
 - **Official GitHub Colors**: Automatically maps 35+ languages to their official GitHub color scheme.
 - **Noise Filtering**: Ignores boilerplate languages (HTML, CSS, Jupyter Notebooks) and filters out low-percentage languages per repo.
