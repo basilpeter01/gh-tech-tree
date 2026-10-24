@@ -44,7 +44,7 @@ Edit [`config.json`](config.json) to set your GitHub username and filter prefere
 
 ```json
 {
-  "github_username": "YOUR_GITHUB_USERNAME",
+  "github_username": "GITHUB_USERNAME",
   "min_language_percent": 2.0,
   "max_repos": 10,
   "ignore_languages": [
@@ -63,7 +63,7 @@ Edit [`config.json`](config.json) to set your GitHub username and filter prefere
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `github_username` | `string` | `"YOUR_GITHUB_USERNAME"` | GitHub handle whose public repos will be visualized. |
+| `github_username` | `string` | `"GITHUB_USERNAME"` | GitHub handle whose public repos will be visualized. |
 | `min_language_percent` | `float` | `2.0` | Minimum % of total repo bytes a language must have to be shown. |
 | `max_repos` | `int` | `10` | Maximum number of non-fork repositories to display (sorted by most recently pushed). |
 | `ignore_languages` | `list` | `["HTML", "CSS", ...]` | Languages to ignore entirely (e.g. boilerplate or markup). |
@@ -106,15 +106,29 @@ GitHub limits unauthenticated requests to **60 requests/hour** per IP. If you ru
   python generate_tree.py
   ```
 
-### 3. Automate via GitHub Actions
+---
 
-Push this repo to GitHub. The included workflow ([`.github/workflows/generate.yml`](.github/workflows/generate.yml)) will:
-- Run **every Sunday at midnight UTC**
-- Run on **any push** that modifies `config.json` or `generate_tree.py`
-- Run on **manual trigger** from the Actions tab
-- Auto-commit the updated `tech-tree.svg`
+### 3. Automate with GitHub Actions
+
+The repository includes an automated workflow at [`.github/workflows/generate.yml`](.github/workflows/generate.yml) that:
+- Runs automatically **every Sunday at midnight UTC**.
+- Runs whenever you push changes to `config.json` or `generate_tree.py`.
+- Can be triggered manually via the **Actions** tab (**Run workflow** button).
+- Uses the built-in `GITHUB_TOKEN` secret (automatic 5,000 requests/hr rate limit).
+- Commits and pushes the freshly generated `tech-tree.svg` back to your branch automatically.
+
+#### Important: Enable Workflow Write Permissions
+For GitHub Actions to push the updated SVG back to your repository:
+1. Go to your repository on GitHub.
+2. Navigate to **Settings** → **Actions** → **General**.
+3. Under **Workflow permissions**, select **"Read and write permissions"**.
+4. Click **Save**.
+
+---
 
 ### 4. Embed in Your Profile README
+
+Add the snippet below to your profile `README.md` (or any repository README):
 
 ```markdown
 <p align="center">
