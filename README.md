@@ -111,9 +111,8 @@ GitHub limits unauthenticated API requests to **60 requests/hour** per IP. If yo
 The repository includes an automated workflow at [`.github/workflows/generate.yml`](.github/workflows/generate.yml) that:
 - Runs automatically **every Sunday at midnight UTC**.
 - Runs on **any push** that modifies `config.json` or `generate_tree.py`.
-- Can be triggered manually via the **Actions** tab (**Run workflow** button).
-- Uses the built-in `GITHUB_TOKEN` secret (automatic 5,000 requests/hr rate limit).
-- Commits and pushes the freshly generated `tech-tree.svg` back to your repository automatically.
+- Can be triggered manually via the **Actions** tab.
+- Commits and pushes the newly generated `tech-tree.svg` back to your repository automatically.
 
 #### Important: Enable Workflow Write Permissions
 For GitHub Actions to push the updated SVG back to your repository:
