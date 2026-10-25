@@ -80,25 +80,19 @@ python generate_tree.py
 
 This outputs `tech-tree.svg` in the root of the project.
 
-#### Avoiding GitHub API Rate Limits Locally
-GitHub limits unauthenticated API requests to **60 requests/hour** per IP. If you run the script frequently on your machine, provide a GitHub Personal Access Token (increases quota to **5,000 requests/hour**):
+#### Avoiding GitHub API Rate Limits Locally for Testing (Optonal)
+GitHub limits unauthenticated API requests to **60 requests/hour** per IP. If limit hits, provide a GitHub Personal Access Token (**5,000 requests/hour**):
 
-1. Generate a token at [GitHub Settings → Developer Settings → Personal Access Tokens (Classic)](https://github.com/settings/tokens). No special permissions/scopes are needed to read public repos.
+1. Generate a token at [GitHub Settings → Developer Settings → Personal Access Tokens (Classic)](https://github.com/settings/tokens). (No special permissions/scopes are needed to read public repos.)
 2. Set the environment variable in your terminal:
 
-- **PowerShell (Windows)**:
+- **Windows (PowerShell)**:
   ```powershell
   $env:GH_TOKEN="ghp_your_token_here"
   python generate_tree.py
   ```
 
-- **Command Prompt (CMD)**:
-  ```cmd
-  set GH_TOKEN=ghp_your_token_here
-  python generate_tree.py
-  ```
-
-- **Linux / macOS (Bash/Zsh)**:
+- **Linux / macOS (Bash)**:
   ```bash
   export GH_TOKEN=ghp_your_token_here
   python generate_tree.py
@@ -114,7 +108,6 @@ The repository includes an automated workflow at [`.github/workflows/generate.ym
 - Can be triggered manually via the **Actions** tab.
 - Commits and pushes the newly generated `tech-tree.svg` back to your repository automatically.
 
-#### Important: Enable Workflow Write Permissions
 For GitHub Actions to push the updated SVG back to your repository:
 1. Go to your repository on GitHub.
 2. Navigate to **Settings** → **Actions** → **General**.
