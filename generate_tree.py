@@ -356,6 +356,13 @@ def run():
 
     # Header / Title Bar & Telemetry HUD
     title_text = "RECENT WORKSPACE"
+    total_repos_count = len(repos)
+    all_profile_languages = {
+        r["language"]
+        for r in repos
+        if r.get("language") and r["language"] not in ignore_langs
+    }
+    total_stacks_count = len(all_profile_languages | distinct_languages)
 
     header = (
         f'<g class="header">\n'
@@ -370,14 +377,14 @@ def run():
         f'\n'
         f'  <!-- Top-Left Telemetry Legend Pill -->\n'
         f'  <g class="hud-counters">\n'
-        f'    <rect x="55" y="44" width="195" height="22" rx="6" fill="#09101d" stroke="#162338" stroke-width="1" />\n'
+        f'    <rect x="55" y="44" width="245" height="22" rx="6" fill="#09101d" stroke="#162338" stroke-width="1" />\n'
         f'    <circle cx="68" cy="55" r="3" fill="#22c55e" />\n'
         f'    <circle cx="68" cy="55" r="6" fill="none" stroke="#22c55e" stroke-opacity="0.25" stroke-width="1" />\n'
         f'    <text x="79" y="59" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
         f'font-size="9.5" font-weight="700" letter-spacing="0.8">\n'
-        f'      <tspan fill="#38bdf8">STACKS:</tspan> <tspan fill="#e2e8f0">{len(languages)}</tspan>'
+        f'      <tspan fill="#38bdf8">REPOS:</tspan> <tspan fill="#e2e8f0">{len(repositories)} OF {total_repos_count}</tspan>'
         f'      <tspan fill="#334155">  |  </tspan>'
-        f'      <tspan fill="#38bdf8">REPOS:</tspan> <tspan fill="#e2e8f0">{len(repositories)}</tspan>\n'
+        f'      <tspan fill="#38bdf8">STACKS:</tspan> <tspan fill="#e2e8f0">{len(languages)} OF {total_stacks_count}</tspan>\n'
         f'    </text>\n'
         f'  </g>\n'
         f'</g>'
