@@ -434,19 +434,9 @@ def run():
         color = LANG_COLORS.get(lang, LANG_COLORS["Default"])
         escaped_lang = html.escape(lang)
 
-        # Label pill on the left of badge
-        pill_w = max(55, len(lang) * 7.5 + 18)
-        pill_x = cx - 36 - pill_w
-        pill_y = cy - 11
-
         node_svg = [
             f'<g class="node-lang">',
-            # Name Pill
-            f'<rect x="{pill_x}" y="{pill_y}" width="{pill_w}" height="22" rx="11" '
-            f'fill="#0a101d" stroke="{color}" stroke-opacity="0.4" stroke-width="1" />',
-            f'<text x="{pill_x + pill_w / 2}" y="{cy + 4}" fill="{color}" '
-            f'font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
-            f'font-size="11" font-weight="600" text-anchor="middle">{escaped_lang}</text>',
+            f'<title>{escaped_lang}</title>',
 
             # Outer diffuse aura
             f'<circle cx="{cx}" cy="{cy}" r="35" fill="{color}" fill-opacity="0.04" stroke="{color}" stroke-opacity="0.12" stroke-width="1" />',
