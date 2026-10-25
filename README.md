@@ -130,13 +130,9 @@ Add the snippet below to your profile `README.md` (or any repository README):
 
 ```markdown
 <p align="center">
-  <a href="https://github.com/GITHUB_USERNAME/gh-tech-tree">
-    <img src="https://raw.githubusercontent.com/GITHUB_USERNAME/gh-tech-tree/main/tech-tree.svg" alt="Tech Dependency Graph" width="100%" />
-  </a>
+    <img src="https://raw.githubusercontent.com/GITHUB_USERNAME/gh-tech-tree/main/tech-tree.svg" alt="Tech tree svg" width="100%" />
 </p>
 ```
-
-> Replace `GITHUB_USERNAME` with your GitHub handle.
 
 ---
 
