@@ -355,7 +355,7 @@ def run():
     )
 
     # Header / Title Bar & Telemetry HUD
-    title_text = "TECH-TREE-MAPPING"
+    title_text = "RECENT WORKSPACE"
 
     header = (
         f'<g class="header">\n'
