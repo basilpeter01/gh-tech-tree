@@ -23,10 +23,10 @@ LANG_COLORS = {
     "Python": "#38bdf8",       # Luminous Sky Blue / Cyan
     "JavaScript": "#facc15",   # Electric Gold / Yellow
     "TypeScript": "#3b82f6",   # Vivid Royal Azure
-    "C": "#818cf8",            # Electric Indigo / Periwinkle (replaces dull #555555)
+    "C": "#818cf8",            # Electric Indigo / Periwinkle (replaces #555555)
     "C++": "#f43f5e",          # Vivid Rose / Hot Pink
     "C#": "#a855f7",           # Electric Purple / Violet
-    "Java": "#f97316",         # Radiant Amber Orange (replaces muddy #B07219)
+    "Java": "#f97316",         # Radiant Amber Orange (replaces #B07219)
     "Rust": "#fb923c",         # Terracotta Coral
     "Go": "#00add8",           # Cyan Teal
     "Kotlin": "#c084fc",       # Soft Violet
@@ -110,6 +110,18 @@ def fetch_all_repos(username, token=None):
     return all_repos
 
 
+def format_bytes(bytes_count):
+    """Format byte count into human-readable string (KB, MB, GB)."""
+    if bytes_count >= 1024 * 1024 * 1024:
+        return f"{bytes_count / (1024 * 1024 * 1024):.1f}GB"
+    elif bytes_count >= 1024 * 1024:
+        return f"{bytes_count / (1024 * 1024):.1f}MB"
+    elif bytes_count >= 1024:
+        return f"{bytes_count / 1024:.1f}KB"
+    else:
+        return f"{bytes_count}B"
+
+
 def render_lang_icon(lang, color, cx, cy):
     """Render a sleek vector icon or monogram inside the circular badge."""
     icon_svg = []
@@ -182,7 +194,7 @@ def render_lang_icon(lang, color, cx, cy):
         ''')
 
     else:
-        # Crisp monogram fallback for any other language
+        # Monogram fallback for any other language
         label = (lang[:3] if len(lang) > 3 else lang).upper()
         font_size = "9" if len(label) == 3 else "11"
         icon_svg.append(f'''
@@ -233,6 +245,7 @@ def run():
     repo_lang_map = {}
     repo_breakdowns = {}
     distinct_languages = set()
+    total_indexed_bytes = 0
 
     for repo_name in selected_repos:
         lang_url = f"https://api.github.com/repos/{username}/{repo_name}/languages"
@@ -266,6 +279,7 @@ def run():
         if active_langs:
             repo_lang_map[repo_name] = active_langs
             repo_breakdowns[repo_name] = breakdown_items
+            total_indexed_bytes += valid_total
 
     # Active lists for layout
     languages = sorted(list(distinct_languages))
@@ -281,7 +295,7 @@ def run():
     # ── 3. Geometry & Layout ───────────────────────────────────────────
     WIDTH = 1000
     NODE_GAP = 76          # Vertical spacing between node centers
-    HEADER_HEIGHT = 70
+    HEADER_HEIGHT = 88
 
     total_col1_h = len(languages) * NODE_GAP
     total_col2_h = len(repositories) * NODE_GAP
@@ -340,22 +354,37 @@ def run():
         f'<rect width="100%" height="100%" fill="url(#dot-grid)" />'
     )
 
-    # Header / Title Bar
+    # Header / Title Bar & Telemetry HUD
     title_text = "TECH-TREE-MAPPING"
+
     header = (
-        f'<g class="header">'
-        f'<line x1="55" y1="36" x2="390" y2="36" stroke="#162338" stroke-width="1.2" />'
-        f'<circle cx="390" cy="36" r="2" fill="#38bdf8" fill-opacity="0.6" />'
-        f'<text x="{WIDTH // 2}" y="40" fill="#64748b" '
+        f'<g class="header">\n'
+        f'  <!-- Main Title Bar -->\n'
+        f'  <line x1="55" y1="28" x2="385" y2="28" stroke="#162338" stroke-width="1.2" />\n'
+        f'  <circle cx="385" cy="28" r="2" fill="#38bdf8" fill-opacity="0.6" />\n'
+        f'  <text x="{WIDTH // 2}" y="32" fill="#64748b" '
         f'font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
-        f'font-size="11" font-weight="700" letter-spacing="3" text-anchor="middle">{title_text}</text>'
-        f'<circle cx="610" cy="36" r="2" fill="#38bdf8" fill-opacity="0.6" />'
-        f'<line x1="610" y1="36" x2="{WIDTH - 55}" y2="36" stroke="#162338" stroke-width="1.2" />'
+        f'font-size="11" font-weight="700" letter-spacing="3" text-anchor="middle">{title_text}</text>\n'
+        f'  <circle cx="615" cy="28" r="2" fill="#38bdf8" fill-opacity="0.6" />\n'
+        f'  <line x1="615" y1="28" x2="{WIDTH - 55}" y2="28" stroke="#162338" stroke-width="1.2" />\n'
+        f'\n'
+        f'  <!-- Top-Left Telemetry Legend Pill -->\n'
+        f'  <g class="hud-counters">\n'
+        f'    <rect x="55" y="44" width="195" height="22" rx="6" fill="#09101d" stroke="#162338" stroke-width="1" />\n'
+        f'    <circle cx="68" cy="55" r="3" fill="#22c55e" />\n'
+        f'    <circle cx="68" cy="55" r="6" fill="none" stroke="#22c55e" stroke-opacity="0.25" stroke-width="1" />\n'
+        f'    <text x="79" y="59" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
+        f'font-size="9.5" font-weight="700" letter-spacing="0.8">\n'
+        f'      <tspan fill="#38bdf8">STACKS:</tspan> <tspan fill="#e2e8f0">{len(languages)}</tspan>'
+        f'      <tspan fill="#334155">  |  </tspan>'
+        f'      <tspan fill="#38bdf8">REPOS:</tspan> <tspan fill="#e2e8f0">{len(repositories)}</tspan>\n'
+        f'    </text>\n'
+        f'  </g>\n'
         f'</g>'
     )
     svg_elements.append(header)
 
-    # ── Connecting Fiber-Optic Cubic Bézier Curves ─────────────────────
+    # ── Connecting Cubic Bézier Curves ─────────────────────
     curve_elements = []
     dx = (PORT_X2 - PORT_X1) * 0.44
 
@@ -383,7 +412,7 @@ def run():
                 f'<path d="{path_d}" fill="none" stroke="{color}" '
                 f'stroke-opacity="0.75" stroke-width="1.7" stroke-linecap="round" class="fiber" />'
             )
-            # Layer 3: Occasional signal packet ping (calm living circuit effect)
+            # Layer 3: Signal packet ping
             curve_elements.append(
                 f'<path d="{path_d}" fill="none" stroke="#ffffff" '
                 f'stroke-opacity="0.85" stroke-width="2" stroke-linecap="round" class="pulse-line" '
@@ -483,7 +512,7 @@ def run():
             f'font-family="-apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif" '
             f'font-size="12" font-weight="600">{escaped_name}</text>',
 
-            # Bottom Language Breakdown Progress Bar (clipped to rounded corners)
+            # Bottom Language Breakdown Progress Bar
             f'<g clip-path="url(#clip-card-{idx})">',
             f'<rect x="{box_x}" y="{bar_y}" width="{CARD_W}" height="{bar_h}" fill="#162338" />',
             "".join(bar_rects),
